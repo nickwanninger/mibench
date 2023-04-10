@@ -33,9 +33,10 @@ SASR	= -DSASR
 # CCFLAGS 	= -c -O
 
 CC		= gcc -ansi -pedantic -static
-# ARM gcc doesn't like the -O1 here...
-#CCFLAGS 	= -c -O1 -DSTUPID_COMPILER -DNeedFunctionPrototypes=1
-CCFLAGS 	= -c -O3 -DSTUPID_COMPILER -DNeedFunctionPrototypes=1
+SB_OPT=-O1 -Xclang -disable-llvm-passes
+# ARM gcc doesn't like the here...
+#CCFLAGS 	= -c -DSTUPID_COMPILER -DNeedFunctionPrototypes=1
+CCFLAGS 	= -c -DSTUPID_COMPILER -DNeedFunctionPrototypes=1 $(SB_OPT)
 
 LD 		= $(CC)
 
@@ -298,7 +299,7 @@ $(LIBGSM):	$(LIB) $(GSM_OBJECTS)
 # Toast, Untoast and Tcat -- the compress-like frontends to gsm.
 
 $(TOAST):	$(BIN) $(TOAST_OBJECTS) $(LIBGSM)
-		$(LD) $(LFLAGS) -o $(TOAST) $(TOAST_OBJECTS) $(LIBGSM) $(LDLIB)
+		$(LD) $(LFLAGS) -o $(TOAST) $(TOAST_OBJECTS) $(LIBGSM) $(LDLIB) $(SB_OPT)
 
 $(UNTOAST):	$(BIN) $(TOAST)
 		-rm $(RMFLAGS) $(UNTOAST)

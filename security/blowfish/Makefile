@@ -21,7 +21,8 @@ MAKE=make -f Makefile
 #CFLAG= -O
 
 CC=gcc
-CFLAG= -static -O3 -fomit-frame-pointer
+SB_OPT=-O1 -Xclang -disable-llvm-passes
+CFLAG= -static -fomit-frame-pointer
 
 CFLAGS=$(OPTS) $(CFLAG)
 CPP=$(CC) -E
@@ -104,7 +105,10 @@ $(BLIB): $(LIBOBJ)
 	else exit 0; fi; fi
 
 bf: bf.o $(BLIB)
-	$(CC) $(CFLAGS) -o bf bf.o $(BLIB)
+	$(CC) $(CFLAGS) -o bf bf.o $(BLIB) $(SB_OPT)
+	cp bf bf_e
+	cp bf bf_d
+	rm -f bf
 
 bftest: bftest.o $(BLIB)
 	$(CC) $(CFLAGS) -o bftest bftest.o $(BLIB)

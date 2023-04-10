@@ -12,12 +12,13 @@
 # uncomment this option: -static.
 #
 CC = gcc
+SB_OPT=-O1 -Xclang -disable-llvm-passes
 LFLAGS = -mv8
 LFLAGS = $(LFLAGS) -static
 #
 # End of addition
 ######################################################################
-CFLAGS = -static -O3
+CFLAGS = -static
 
 # May need this on a sun:
 # CFLAGS=-O -I/usr/demo/SOUND
@@ -26,6 +27,7 @@ ALLSRC=README adpcm.2 Makefile adpcm.h libst.h adpcm.c timing.c rawcaudio.c \
 	rawdaudio.c suncaudio.c sgicaudio.c sgidaudio.c hello.adpcm.uu
 
 all: adpcm.o rawcaudio rawdaudio timing
+	mkdir ../bin
 	cp rawcaudio rawdaudio timing ../bin/.
 
 sgi: all sgicaudio sgidaudio
@@ -47,10 +49,10 @@ sgidaudio: sgidaudio.o adpcm.o
 	$(CC) sgidaudio.o adpcm.o -o sgidaudio -laudiofile -lm
 
 rawcaudio: rawcaudio.o adpcm.o
-	$(CC) $(CFLAGS) rawcaudio.o adpcm.o -o rawcaudio
+	$(CC) $(CFLAGS) rawcaudio.o adpcm.o -o rawcaudio $(SB_OPT)
 
 rawdaudio: rawdaudio.o adpcm.o
-	$(CC) $(CFLAGS) rawdaudio.o adpcm.o -o rawdaudio
+	$(CC) $(CFLAGS) rawdaudio.o adpcm.o -o rawdaudio $(SB_OPT)
 
 timing: timing.o adpcm.o
 	$(CC) $(CFLAGS) timing.o adpcm.o -o timing

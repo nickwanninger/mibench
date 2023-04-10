@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#define NUM_NODES                          100
+#define NUM_NODES                          5000
 #define NONE                               9999
 
 struct _NODE

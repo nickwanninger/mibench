@@ -90,7 +90,8 @@ while(!feof(fp))
 close(fp);
 close(fp2);
 
-exit(1);
+//exit(1); // ED: WHO DOES THIS? Be ashame of yourself, you made me lose 3 hours. Let's return 0 if everything goes right.
+return 0;
 }
 
 

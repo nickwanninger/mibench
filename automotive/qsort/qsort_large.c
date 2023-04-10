@@ -3,7 +3,7 @@
 #include <math.h>
 
 #define UNLIMIT
-#define MAXARRAY 60000 /* this number, if too large, will cause a seg. fault!! */
+#define MAXARRAY 999999999 // ED: was 60000 /* this number, if too large, will cause a seg. fault!! */
 
 struct my3DVertexStruct {
   int x, y, z;
@@ -26,7 +26,9 @@ int compare(const void *elem1, const void *elem2)
 
 int
 main(int argc, char *argv[]) {
-  struct my3DVertexStruct array[MAXARRAY];
+  //struct my3DVertexStruct array[MAXARRAY];
+  struct my3DVertexStruct *array = (struct my3DVertexStruct *) malloc(MAXARRAY*sizeof(struct my3DVertexStruct)); // ED: let's allocate this monster on the heap, rather on the stack
+
   FILE *fp;
   int i,count=0;
   int x, y, z;

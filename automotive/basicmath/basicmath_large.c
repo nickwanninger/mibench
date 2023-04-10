@@ -5,6 +5,7 @@
 
 int main(void)
 {
+
   double  a1 = 1.0, b1 = -10.5, c1 = 32.0, d1 = -30.0;
   double  x[3];
   double X;
@@ -74,9 +75,10 @@ int main(void)
   printf("\n");
 
   /* Now solve some random equations */
-  for(a1=1;a1<10;a1+=1) {
+  int upperBound = 1000; // ED
+  for(a1=1;a1<upperBound;a1+=1) {
     for(b1=10;b1>0;b1-=.25) {
-      for(c1=5;c1<15;c1+=0.61) {
+      for(c1=5;c1<upperBound;c1+=0.61) {
 	   for(d1=-1;d1>-5;d1-=.451) {
 		SolveCubic(a1, b1, c1, d1, &solutions, x);  
 		printf("Solutions:");
@@ -91,6 +93,7 @@ int main(void)
 
   printf("********* INTEGER SQR ROOTS ***********\n");
   /* perform some integer square roots */
+  int numOfSqrtRoots = 10000000; // ED
   for (i = 0; i < 100000; i+=2)
     {
       usqrt(i, &q);
@@ -111,13 +114,14 @@ int main(void)
   printf("********* ANGLE CONVERSION ***********\n");
   /* convert some rads to degrees */
 /*   for (X = 0.0; X <= 360.0; X += 1.0) */
-  for (X = 0.0; X <= 360.0; X += .001)
+  double step = 0.00001;
+  for (X = 0.0; X <= 360.0; X += step)
     printf("%3.0f degrees = %.12f radians\n", X, deg2rad(X));
   puts("");
 /*   for (X = 0.0; X <= (2 * PI + 1e-6); X += (PI / 180)) */
   for (X = 0.0; X <= (2 * PI + 1e-6); X += (PI / 5760))
     printf("%.12f radians = %3.0f degrees\n", X, rad2deg(X));
-  
+
   
   return 0;
 }

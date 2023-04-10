@@ -21,6 +21,7 @@ mandir = $(prefix)/man/man$(manext)
 
 # The name of your C compiler:
 CC= gcc
+SB_OPT=-O1 -Xclang -disable-llvm-passes
 
 # You may need to adjust these cc options:
 CFLAGS= -O  -I$(srcdir)
@@ -134,10 +135,10 @@ libjpeg.a:  $(LIBOBJECTS)
 	$(AR2) libjpeg.a
 
 cjpeg: $(COBJECTS) libjpeg.a
-	$(LN) $(LDFLAGS) -o cjpeg $(COBJECTS) libjpeg.a $(LDLIBS)
+	$(LN) $(LDFLAGS) -o cjpeg $(COBJECTS) libjpeg.a $(LDLIBS) $(SB_OPT)
 
 djpeg: $(DOBJECTS) libjpeg.a
-	$(LN) $(LDFLAGS) -o djpeg $(DOBJECTS) libjpeg.a $(LDLIBS)
+	$(LN) $(LDFLAGS) -o djpeg $(DOBJECTS) libjpeg.a $(LDLIBS) $(SB_OPT)
 
 jpegtran: $(TROBJECTS) libjpeg.a
 	$(LN) $(LDFLAGS) -o jpegtran $(TROBJECTS) libjpeg.a $(LDLIBS)

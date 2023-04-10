@@ -1,5 +1,8 @@
+CC=gcc
+SB_OPT=-O1 -Xclang -disable-llvm-passes
+
 crc: crc_32.c Makefile
-	gcc -static crc_32.c -O3 -o crc 
+	$(CC) -static crc_32.c -o crc $(SB_OPT) 
 
 clean:
 	rm -rf crc output*

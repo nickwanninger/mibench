@@ -2053,8 +2053,10 @@ CORNER_LIST corner_list;
     case 0:
       /* {{{ smoothing */
 
-      setup_brightness_lut(&bp,bt,2);
-      susan_smoothing(three_by_three,in,dt,x_size,y_size,bp);
+      for (auto i = 0; i < 1000; ++i){
+        setup_brightness_lut(&bp,bt,2);
+        susan_smoothing(three_by_three,in,dt,x_size,y_size,bp);
+      }
       break;
 
 /* }}} */
@@ -2062,30 +2064,32 @@ CORNER_LIST corner_list;
       /* {{{ edges */
 
       r   = (int *) malloc(x_size * y_size * sizeof(int));
-      setup_brightness_lut(&bp,bt,6);
 
-      if (principle)
-      {
-        if (three_by_three)
-          susan_principle_small(in,r,bp,max_no_edges,x_size,y_size);
+      for (auto i = 0; i < 1000; ++i){
+        setup_brightness_lut(&bp,bt,6);
+
+        if (principle)
+        {
+          if (three_by_three)
+            susan_principle_small(in,r,bp,max_no_edges,x_size,y_size);
+          else
+            susan_principle(in,r,bp,max_no_edges,x_size,y_size);
+          int_to_uchar(r,in,x_size*y_size);
+        }
         else
-          susan_principle(in,r,bp,max_no_edges,x_size,y_size);
-        int_to_uchar(r,in,x_size*y_size);
-      }
-      else
-      {
-        mid = (uchar *)malloc(x_size*y_size);
-        memset (mid,100,x_size * y_size); /* note not set to zero */
+        {
+          mid = (uchar *)malloc(x_size*y_size);
+          memset (mid,100,x_size * y_size); /* note not set to zero */
 
-        if (three_by_three)
-          susan_edges_small(in,r,mid,bp,max_no_edges,x_size,y_size);
-        else
-          susan_edges(in,r,mid,bp,max_no_edges,x_size,y_size);
-        if(thin_post_proc)
-          susan_thin(r,mid,x_size,y_size);
-        edge_draw(in,mid,x_size,y_size,drawing_mode);
+          if (three_by_three)
+            susan_edges_small(in,r,mid,bp,max_no_edges,x_size,y_size);
+          else
+            susan_edges(in,r,mid,bp,max_no_edges,x_size,y_size);
+          if(thin_post_proc)
+            susan_thin(r,mid,x_size,y_size);
+          edge_draw(in,mid,x_size,y_size,drawing_mode);
+        }
       }
-
       break;
 
 /* }}} */
@@ -2093,22 +2097,23 @@ CORNER_LIST corner_list;
       /* {{{ corners */
 
       r   = (int *) malloc(x_size * y_size * sizeof(int));
-      setup_brightness_lut(&bp,bt,6);
+      for (auto i = 0; i < 10000; ++i){
+        setup_brightness_lut(&bp,bt,6);
 
-      if (principle)
-      {
-        susan_principle(in,r,bp,max_no_corners,x_size,y_size);
-        int_to_uchar(r,in,x_size*y_size);
-      }
-      else
-      {
-        if(susan_quick)
-          susan_corners_quick(in,r,bp,max_no_corners,corner_list,x_size,y_size);
+        if (principle)
+        {
+          susan_principle(in,r,bp,max_no_corners,x_size,y_size);
+          int_to_uchar(r,in,x_size*y_size);
+        }
         else
-          susan_corners(in,r,bp,max_no_corners,corner_list,x_size,y_size);
-        corner_draw(in,corner_list,x_size,drawing_mode);
+        {
+          if(susan_quick)
+            susan_corners_quick(in,r,bp,max_no_corners,corner_list,x_size,y_size);
+          else
+            susan_corners(in,r,bp,max_no_corners,corner_list,x_size,y_size);
+          corner_draw(in,corner_list,x_size,drawing_mode);
+        }
       }
-
       break;
 
 /* }}} */

@@ -12,6 +12,7 @@ ARCH = $(shell uname -m)
 # defaults:
 PGM = lame
 CC = gcc
+SB_OPT=-O1 -Xclang -disable-llvm-passes
 CC_OPTS =  -O
 GTK = 
 GTKLIBS = 
@@ -78,7 +79,7 @@ ifeq ($(UNAME),Linux)
 
 
 # suggested for gcc-2.7.x
-   CC_OPTS =  -O3 -fomit-frame-pointer -funroll-loops -ffast-math  -finline-functions -Wall
+   CC_OPTS =  -fomit-frame-pointer -funroll-loops -ffast-math  -finline-functions -Wall
 #  CC_OPTS =  -O9 -fomit-frame-pointer -fno-strength-reduce -mpentiumpro -ffast-math -finline-functions -funroll-loops -Wall -malign-double -g -march=pentiumpro -mfancy-math-387 -pipe 
 
 #  for debugging:
@@ -168,7 +169,7 @@ endif
 ##########################################################################
 ifeq ($(UNAME),OSF1)
    CC = cc
-   CC_OPTS = -fast -O3 -std -g3 -non_shared
+   CC_OPTS = -fast -std -g3 -non_shared
 endif
 
 ##########################################################################
@@ -207,7 +208,7 @@ endif
 ifeq ($(UNAME),OS/2)
    SHELL=sh	
    CC = gcc
-   CC_OPTS = -O3
+   CC_OPTS =
    PGM = lame.exe
    LIBS =
 
@@ -272,7 +273,7 @@ DEP = $(c_sources:.c=.d)
 
 
 %.o: %.c 
-	$(CC) $(CPP_OPTS) $(CC_SWITCHES) -c $< -o $@
+	$(CC) $(CPP_OPTS) $(CC_SWITCHES) -c $< -o $@ $(SB_OPT)
 
 %.d: %.c
 	$(SHELL) -ec '$(CC) $(MAKEDEP)  $(CPP_OPTS) $(CC_SWITCHES)  $< | sed '\''s;$*.o;& $@;g'\'' > $@'
@@ -281,7 +282,7 @@ DEP = $(c_sources:.c=.d)
 #	$(CC) -o $(PGM)  main.o $(OBJ) $(LIBS) $(CPP_OPTS) $(LIBSNDFILE) $(GTKLIBS) $(LIBTERMCAP)
 
 $(PGM):	main.o libmp3lame.a 
-	$(CC) -o $(PGM)  main.o -L. -lmp3lame $(LIBS) $(LIBSNDFILE) $(GTKLIBS) $(LIBTERMCAP)
+	$(CC) -o $(PGM)  main.o -L. -lmp3lame $(LIBS) $(LIBSNDFILE) $(GTKLIBS) $(LIBTERMCAP) $(SB_OPT) 
 
 mp3x:	mp3x.o libmp3lame.a
 	$(CC) -o mp3x mp3x.o  $(OBJ) $(LIBS) $(LIBSNDFILE) $(GTKLIBS) $(LIBTERMCAP)

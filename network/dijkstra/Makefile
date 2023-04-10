@@ -1,10 +1,13 @@
-all:  dijkstra_large dijkstra_small
+CC=gcc
+SB_OPT=-O1 -Xclang -disable-llvm-passes
 
-dijkstra_large: dijkstra_large.c Makefile
-	gcc -static dijkstra_large.c -O3 -o dijkstra_large
+all: dijkstra
+
+dijkstra: dijkstra_large.c Makefile
+	$(CC) -static dijkstra_large.c -o dijkstra $(SB_OPT)
 
 dijkstra_small: dijkstra_small.c Makefile
-	gcc -static dijkstra_small.c -O3 -o dijkstra_small 
+	$(CC) -static dijkstra_small.c -o dijkstra_small 
 
 clean:
-	rm -rf dijkstra_large dijkstra_small output*
+	rm -rf dijkstra_* output*
